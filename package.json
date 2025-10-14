@@ -1,0 +1,38 @@
+{
+    "name": "aws-cis-compliance-ready-policies-typescript",
+    "version": "0.0.31",
+    "files": [
+        "index.ts",
+        "rules/**",
+        "tagging.ts",
+        "package.json",
+        "policy-config.json",
+        "PulumiPolicy.yaml",
+        "tsconfig.json"
+    ],
+    "scripts": {
+        "test": "mocha --require ts-node/register 'test/**/*.test.ts'",
+        "release:major": "npm version major",
+        "release:minor": "npm version minor",
+        "release:patch": "npm version patch",
+        "postversion": "pulumi policy publish"
+    },
+    "dependencies": {
+        "@pulumi/aws-compliance-policies": "^0",
+        "@pulumi/compliance-policy-manager": "^0",
+        "@pulumi/eks": "^3.2.0",
+        "@pulumi/esc-sdk": "^0.10.3",
+        "@pulumi/kubernetes": "^4.18.3",
+        "@pulumi/kubernetes-compliance-policies": "^0.1.3",
+        "@pulumi/policy": "^1.14.0",
+        "@pulumi/pulumi": "^3.0.0"
+    },
+    "devDependencies": {
+        "@types/chai": "^5.2.2",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^20.0.0",
+        "chai": "^6.2.0",
+        "mocha": "^11.7.4",
+        "ts-node": "^10.9.2"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "check-required-tags": {
+        "requiredTags": [
+            "user:Owner",
+            "user:Team",
+            "user:Stack"
+        ]
+    }
+}

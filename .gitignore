@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Environment variables
+.env*
+
+# Build output
+dist/
+build/
+
+# IDEs and editors
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Coverage data
+coverage/
+
+# Temporary files
+tmp/

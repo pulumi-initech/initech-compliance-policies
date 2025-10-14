@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "outDir": "bin",
+        "target": "ES6",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "declaration": true,
+        "sourceMap": false,
+        "stripInternal": true,
+        "experimentalDecorators": true,
+        "pretty": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "forceConsistentCasingInFileNames": true,
+        "strictNullChecks": true,
+    },
+    "files": [
+        "index.ts",
+        "rules/checkStackTags.ts",
+        "rules/validateEksNodeType.ts",
+        "rules/validateS3.ts",
+        "rules/validateSecurityGroups.ts"
+    ]
+}
