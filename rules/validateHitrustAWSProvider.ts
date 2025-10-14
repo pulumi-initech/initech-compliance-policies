@@ -63,7 +63,7 @@ export const validateHitrustAWSProvider: StackValidationPolicy = {
                     BusinessUnit: { type: "string" },
                     Environment: {
                         type: "string",
-                        enum: ["production", "staging", "development"],
+                        enum: ["prod", "qa", "dev"],
                     },
                     Project: { type: "string" },
                     ManagedBy: {
