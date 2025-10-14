@@ -70,8 +70,27 @@ Custom policies are located in the `rules/` directory:
    - Each provider can be configured for different regions (e.g., us-east-1, us-west-2)
    - Validates that each HITRUST provider has required region and tags
    - Allows AWS resources to use any of the HITRUST-compliant providers
-   - Configurable `requiredRegions` and `requiredTags` via policy config
+   - **Structured `requiredTags` configuration** with type validation:
+     - `Team`: string (presence check only)
+     - `BusinessUnit`: string (presence check only)
+     - `Environment`: enum - must be `production`, `staging`, or `development`
+     - `Project`: string (presence check only)
+     - `ManagedBy`: const - must be `pulumi`
+   - Example configuration:
+     ```typescript
+     {
+         requiredRegions: ["us-east-1", "us-west-2"],
+         requiredTags: {
+             Team: undefined,           // Check presence only
+             BusinessUnit: undefined,   // Check presence only
+             Environment: "production", // Validate enum value
+             Project: undefined,        // Check presence only
+             ManagedBy: "pulumi"        // Validate const value
+         }
+     }
+     ```
    - Handles both object and JSON string formats for `defaultTags` deserialization
+   - Validates both provider default tags and resource-level tags
 
 ### Helper Utilities
 

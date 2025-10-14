@@ -53,7 +53,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -72,7 +78,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -106,7 +118,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: [],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -140,7 +158,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -179,7 +203,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -215,7 +245,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -270,7 +306,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -325,7 +367,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -359,7 +407,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -389,7 +443,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
@@ -420,7 +480,13 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "BusinessUnit", "Environment", "Project", "ManagedBy"],
+                        requiredTags: {
+                            Team: undefined,
+                            BusinessUnit: undefined,
+                            Environment: undefined,
+                            Project: undefined,
+                            ManagedBy: undefined,
+                        },
                     } as T;
                 },
             };
