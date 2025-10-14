@@ -1,6 +1,6 @@
 {
     "name": "aws-cis-compliance-ready-policies-typescript",
-    "version": "0.0.31",
+    "version": "0.0.33",
     "files": [
         "index.ts",
         "rules/**",

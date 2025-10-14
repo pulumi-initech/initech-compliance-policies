@@ -50,7 +50,10 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "Environment"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: undefined,
+                        },
                     } as T;
                 },
             };
@@ -100,7 +103,10 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "Environment"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: undefined,
+                        },
                     } as T;
                 },
             };
@@ -185,7 +191,10 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "Environment"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: undefined,
+                        },
                     } as T;
                 },
             };
@@ -235,7 +244,10 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "Environment"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: undefined,
+                        },
                     } as T;
                 },
             };
@@ -304,7 +316,10 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
-                        requiredTags: ["Team", "Environment"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: undefined,
+                        },
                     } as T;
                 },
             };
@@ -356,7 +371,10 @@ describe("validateHitrustAWSProvider", () => {
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
-                        requiredTags: ["Team", "Environment"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: undefined,
+                        },
                     } as T;
                 },
             };
@@ -368,6 +386,146 @@ describe("validateHitrustAWSProvider", () => {
             expect(violations).to.have.lengthOf(1);
             expect(violations[0]).to.include("hitrust-incomplete");
             expect(violations[0]).to.include("is missing required default tag 'Environment'");
+        });
+
+        it("should fail when Environment tag has invalid enum value on provider", () => {
+            const violations: string[] = [];
+            const mockArgs: StackValidationArgs = {
+                resources: [
+                    createMockPolicyResource({
+                        type: "pulumi:providers:aws",
+                        name: "hitrust-provider",
+                        urn: "urn:pulumi:dev::my-stack::pulumi:providers:aws::hitrust-provider",
+                        props: {
+                            region: "us-east-1",
+                            defaultTags: {
+                                tags: {
+                                    Compliance: "HITRUST",
+                                    Team: "Platform",
+                                    Environment: "prod",  // Invalid - should be production, staging, or development
+                                },
+                            },
+                        },
+                    }),
+                ],
+                getConfig: <T>(): T => {
+                    return {
+                        requiredRegions: ["us-east-1"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: "production",
+                        },
+                    } as T;
+                },
+            };
+
+            validateHitrustAWSProvider.validateStack!(mockArgs, (msg: string) => {
+                violations.push(msg);
+            });
+
+            expect(violations).to.have.lengthOf(1);
+            expect(violations[0]).to.include("Environment");
+            expect(violations[0]).to.include("must be one of [production, staging, development]");
+            expect(violations[0]).to.include("but got 'prod'");
+        });
+
+        it("should fail when ManagedBy tag is not 'pulumi' on provider", () => {
+            const violations: string[] = [];
+            const mockArgs: StackValidationArgs = {
+                resources: [
+                    createMockPolicyResource({
+                        type: "pulumi:providers:aws",
+                        name: "hitrust-provider",
+                        urn: "urn:pulumi:dev::my-stack::pulumi:providers:aws::hitrust-provider",
+                        props: {
+                            region: "us-east-1",
+                            defaultTags: {
+                                tags: {
+                                    Compliance: "HITRUST",
+                                    Team: "Platform",
+                                    ManagedBy: "terraform",  // Invalid - must be "pulumi"
+                                },
+                            },
+                        },
+                    }),
+                ],
+                getConfig: <T>(): T => {
+                    return {
+                        requiredRegions: ["us-east-1"],
+                        requiredTags: {
+                            Team: undefined,
+                            ManagedBy: "pulumi",
+                        },
+                    } as T;
+                },
+            };
+
+            validateHitrustAWSProvider.validateStack!(mockArgs, (msg: string) => {
+                violations.push(msg);
+            });
+
+            expect(violations).to.have.lengthOf(1);
+            expect(violations[0]).to.include("ManagedBy");
+            expect(violations[0]).to.include("must be 'pulumi'");
+            expect(violations[0]).to.include("but got 'terraform'");
+        });
+
+        it("should fail when resource has invalid Environment tag value", () => {
+            const violations: string[] = [];
+            const providerUrn = "urn:pulumi:dev::my-stack::pulumi:providers:aws::hitrust-provider";
+            const mockArgs: StackValidationArgs = {
+                resources: [
+                    createMockPolicyResource({
+                        type: "pulumi:providers:aws",
+                        name: "hitrust-provider",
+                        urn: providerUrn,
+                        props: {
+                            region: "us-east-1",
+                            defaultTags: {
+                                tags: {
+                                    Compliance: "HITRUST",
+                                    Team: "Platform",
+                                    Environment: "production",
+                                },
+                            },
+                        },
+                    }),
+                    createMockPolicyResource({
+                        type: "aws:s3/bucket:Bucket",
+                        name: "test-bucket",
+                        urn: "urn:pulumi:dev::my-stack::aws:s3/bucket:Bucket::test-bucket",
+                        props: {
+                            bucket: "test-bucket",
+                            tags: { Team: "Platform", Environment: "dev" },  // Invalid enum value
+                            tagsAll: { Team: "Platform", Environment: "dev" },
+                        },
+                        provider: {
+                            urn: providerUrn,
+                            type: "pulumi:providers:aws",
+                            props: {},
+                            name: "hitrust-provider",
+                        },
+                    }),
+                ],
+                getConfig: <T>(): T => {
+                    return {
+                        requiredRegions: ["us-east-1"],
+                        requiredTags: {
+                            Team: undefined,
+                            Environment: "production",
+                        },
+                    } as T;
+                },
+            };
+
+            validateHitrustAWSProvider.validateStack!(mockArgs, (msg: string) => {
+                violations.push(msg);
+            });
+
+            expect(violations).to.have.lengthOf(1);
+            expect(violations[0]).to.include("test-bucket");
+            expect(violations[0]).to.include("Environment");
+            expect(violations[0]).to.include("must be one of [production, staging, development]");
         });
     });
 });

@@ -2,7 +2,13 @@ import { PolicyResource, StackValidationPolicy } from "@pulumi/policy";
 
 export interface HitrustRegionConfig {
     requiredRegions?: string[];
-    requiredTags?: string[];
+    requiredTags?: {
+        Team?: string;
+        BusinessUnit?: string;
+        Environment?: "production" | "staging" | "development";
+        Project?: string;
+        ManagedBy?: string;
+    };
 }
 
 const getAwsProviders = function(resources: PolicyResource[]): PolicyResource[] {
@@ -51,8 +57,21 @@ export const validateHitrustAWSProvider: StackValidationPolicy = {
                 items: { type: "string" },
             },
             requiredTags: {
-                type: "array",
-                items: { type: "string" },
+                type: "object",
+                properties: {
+                    Team: { type: "string" },
+                    BusinessUnit: { type: "string" },
+                    Environment: {
+                        type: "string",
+                        enum: ["prod", "qa", "dev"],
+                    },
+                    Project: { type: "string" },
+                    ManagedBy: {
+                        type: "string",
+                        const: "pulumi",
+                    },
+                },
+                additionalProperties: false,
             },
         },
     },
@@ -115,13 +134,26 @@ export const validateHitrustAWSProvider: StackValidationPolicy = {
 
             // check if all required tags are present
             const ts = getDefaultTags(hitrustProvider.props);
-            if(ts) {
-                for (const rt of requiredTags) {
-                    if (!ts[rt]) {
-                        reportViolation(`AWS provider '${hitrustProvider.urn}' is missing required default tag '${rt}'`);
+            if(ts && requiredTags) {
+                // Validate each tag defined in the config
+                for (const [tagKey, expectedValue] of Object.entries(requiredTags)) {
+                    const actualValue = ts[tagKey];
+
+                    if (!actualValue) {
+                        reportViolation(`AWS provider '${hitrustProvider.urn}' is missing required default tag '${tagKey}'`);
+                    } else if (expectedValue !== undefined) {
+                        // If config specifies an expected value, validate it
+                        if (tagKey === "ManagedBy" && expectedValue === "pulumi" && actualValue !== "pulumi") {
+                            reportViolation(`AWS provider '${hitrustProvider.urn}' tag 'ManagedBy' must be 'pulumi', but got '${actualValue}'`);
+                        } else if (tagKey === "Environment") {
+                            const validEnvironments = ["production", "staging", "development"];
+                            if (!validEnvironments.includes(actualValue)) {
+                                reportViolation(`AWS provider '${hitrustProvider.urn}' tag 'Environment' must be one of [${validEnvironments.join(", ")}], but got '${actualValue}'`);
+                            }
+                        }
                     }
                 }
-            } else {
+            } else if (requiredTags && Object.keys(requiredTags).length > 0) {
                 reportViolation(`AWS provider '${hitrustProvider.urn}' is missing required tags`);
             }
         }
@@ -143,9 +175,23 @@ export const validateHitrustAWSProvider: StackValidationPolicy = {
 
             const tags = {...tsa, ...ts};
             // aws provider is configured for hitrust, check required tags on the resource
-            for (const rt of requiredTags) {
-                if (!tags || !tags[rt]) {
-                    reportViolation(`'${r.urn}' is missing required HITRUST tag '${rt}'`);
+            if (requiredTags) {
+                for (const [tagKey, expectedValue] of Object.entries(requiredTags)) {
+                    const actualValue = tags?.[tagKey];
+
+                    if (!actualValue) {
+                        reportViolation(`'${r.urn}' is missing required HITRUST tag '${tagKey}'`);
+                    } else if (expectedValue !== undefined) {
+                        // If config specifies an expected value, validate it
+                        if (tagKey === "ManagedBy" && expectedValue === "pulumi" && actualValue !== "pulumi") {
+                            reportViolation(`Resource '${r.urn}' tag 'ManagedBy' must be 'pulumi', but got '${actualValue}'`);
+                        } else if (tagKey === "Environment") {
+                            const validEnvironments = ["production", "staging", "development"];
+                            if (!validEnvironments.includes(actualValue)) {
+                                reportViolation(`Resource '${r.urn}' tag 'Environment' must be one of [${validEnvironments.join(", ")}], but got '${actualValue}'`);
+                            }
+                        }
+                    }
                 }
             }
         }
