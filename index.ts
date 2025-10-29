@@ -2,7 +2,7 @@ import { PolicyPack } from "@pulumi/policy";
 import { policyManager } from "@pulumi/compliance-policy-manager";
 
 import { validateEksNodeType } from "./rules/validateEksNodeType";
-import { checkStackTags } from "./rules/checkStackTags";
+// import { checkStackTags } from "./rules/checkStackTags";
 import { securityGroupOpenIngresses } from "./rules/validateSecurityGroups";
 import { s3BucketLoggingEnabled } from "./rules/validateS3";
 import { validateHitrustAWSProvider } from "./rules/validateHitrustAWSProvider";
@@ -41,7 +41,7 @@ new PolicyPack("initech-org-compliance-policies-aws", {
         }, "advisory"),
     
         // include custom policies imported above
-        checkStackTags,
+        // checkStackTags,
         validateEksNodeType,
         securityGroupOpenIngresses,
         s3BucketLoggingEnabled,

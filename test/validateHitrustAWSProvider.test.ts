@@ -47,6 +47,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
@@ -100,6 +102,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
@@ -188,6 +192,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
@@ -241,6 +247,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
@@ -313,6 +321,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
@@ -368,6 +378,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
@@ -408,6 +420,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
@@ -449,6 +463,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
@@ -507,6 +523,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
