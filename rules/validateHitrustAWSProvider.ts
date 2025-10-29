@@ -1,3 +1,4 @@
+import { aws } from "@pulumi/aws-compliance-policies";
 import { PolicyResource, StackValidationPolicy } from "@pulumi/policy";
 
 export interface HitrustRegionConfig {
@@ -84,10 +85,7 @@ export const validateHitrustAWSProvider: StackValidationPolicy = {
         const requiredRegions = config.requiredRegions!;
         const requiredTags = config.requiredTags!;
 
-        if(!requiredRegions || requiredRegions.length === 0) {
-            reportViolation("No required regions configured for HITRUST compliance.");
-            return;
-        }
+       
 
         const awsProviders = getDefaultAwsProviders(args.resources);
 
@@ -114,14 +112,23 @@ export const validateHitrustAWSProvider: StackValidationPolicy = {
             }
         }
 
-        if(hitrustProviders.length === 0) {
+        if((awsProviders?.length || explicitAwsProviders.length) && hitrustProviders.length === 0) {
+            console.log("AWS Providers found, but none configured for HITRUST compliance.");
             reportViolation("No AWS provider configured for HITRUST compliance.");
             return;
-        } else {
-            console.log(`Found ${hitrustProviders.length} AWS Provider(s) configured for HITRUST compliance:`);
-            hitrustProviders.forEach(p => {
-                console.log(`  - ${p.urn} - ${JSON.stringify(p.props)}`);
-            });
+        } else if (awsProviders?.length === 0 && explicitAwsProviders.length === 0) {
+            console.log("No AWS Providers found in the stack. Skipping HITRUST provider validation.");
+            return;
+        } 
+
+        console.log(`Found ${hitrustProviders.length} AWS Provider(s) configured for HITRUST compliance:`);
+        hitrustProviders.forEach(p => {
+            console.log(`  - ${p.urn} - ${JSON.stringify(p.props)}`);
+        });
+
+        if(!requiredRegions || requiredRegions.length === 0) {
+            reportViolation("No required regions configured for HITRUST compliance.");
+            return;
         }
 
         // Validate each HITRUST provider
