@@ -6,6 +6,7 @@ import { validateEksNodeType } from "./rules/validateEksNodeType";
 import { securityGroupOpenIngresses } from "./rules/validateSecurityGroups";
 import { s3BucketLoggingEnabled } from "./rules/validateS3";
 import { validateHitrustAWSProvider } from "./rules/validateHitrustAWSProvider";
+import { checkStackTags } from "./rules/checkStackTags";
 
 new PolicyPack("initech-org-compliance-policies-aws", {
     enforcementLevel: "advisory",
@@ -45,7 +46,8 @@ new PolicyPack("initech-org-compliance-policies-aws", {
         validateEksNodeType,
         securityGroupOpenIngresses,
         s3BucketLoggingEnabled,
-        validateHitrustAWSProvider
+        validateHitrustAWSProvider,
+        checkStackTags,
     ],
 });
 
