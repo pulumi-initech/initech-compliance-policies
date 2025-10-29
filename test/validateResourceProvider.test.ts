@@ -30,6 +30,8 @@ describe("validateHitrustAWSProvider", () => {
         it("should pass when AWS provider has HITRUST compliance tags and valid region", () => {
             const violations: string[] = [];
             const mockArgs: StackValidationArgs = {
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "notApplicable called"); },
                 resources: [
                     createMockPolicyResource({
                         type: "pulumi:providers:aws",
@@ -74,6 +76,8 @@ describe("validateHitrustAWSProvider", () => {
         it("should fail when no AWS provider exists", () => {
             const violations: string[] = [];
             const mockArgs: StackValidationArgs = {
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "notApplicable called"); },
                 resources: [],
                 getConfig: <T>(): T => {
                     return {
@@ -115,6 +119,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "notApplicable called"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: [],
@@ -155,6 +161,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "notApplicable called"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
@@ -200,6 +208,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
@@ -242,6 +252,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
@@ -270,6 +282,8 @@ describe("validateHitrustAWSProvider", () => {
         it("should check explicit AWS provider when default provider lacks HITRUST tag", () => {
             const violations: string[] = [];
             const mockArgs: StackValidationArgs = {
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "notApplicable called"); },
                 resources: [
                     createMockPolicyResource({
                         type: "pulumi:providers:aws",
@@ -364,6 +378,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
@@ -404,6 +420,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
@@ -440,6 +458,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1"],
@@ -477,6 +497,8 @@ describe("validateHitrustAWSProvider", () => {
                         },
                     }),
                 ],
+                stackTags: new Map<string, string>(),
+                notApplicable: (reason?: string) => { throw new Error(reason || "Not applicable"); },
                 getConfig: <T>(): T => {
                     return {
                         requiredRegions: ["us-east-1", "us-west-2"],
