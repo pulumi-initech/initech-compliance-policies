@@ -1,4 +1,4 @@
-import { ReportViolation, ResourceValidationPolicy, ResourceValidationArgs, StackValidationArgs } from "@pulumi/policy";
+import { ReportViolation, ResourceValidationPolicy, ResourceValidationArgs } from "@pulumi/policy";
 
 export const alwaysFailRule: ResourceValidationPolicy = {
     name: "always-fail-rule",
