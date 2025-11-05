@@ -7,6 +7,7 @@ import { securityGroupOpenIngresses } from "./rules/validateSecurityGroups";
 import { s3BucketLoggingEnabled } from "./rules/validateS3";
 import { validateHitrustAWSProvider } from "./rules/validateHitrustAWSProvider";
 import { checkStackTags } from "./rules/checkStackTags";
+import { alwaysFailRule } from "./rules/alwaysFailRule";
 
 new PolicyPack("initech-org-compliance-policies-aws", {
     enforcementLevel: "advisory",
@@ -48,6 +49,7 @@ new PolicyPack("initech-org-compliance-policies-aws", {
         s3BucketLoggingEnabled,
         validateHitrustAWSProvider,
         checkStackTags,
+        alwaysFailRule,
     ],
 });
 
