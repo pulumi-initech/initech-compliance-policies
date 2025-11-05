@@ -5,12 +5,16 @@ export const s3BucketLoggingEnabled: ResourceValidationPolicy = {
     name: "s3-bucket-parent-component",
     description: "Checks whether an S3 bucket is a child of a specific parent component.",
     enforcementLevel: "mandatory",
+    remediationSteps: "Ensure that the S3 bucket is created as a child resource of the specified parent component.",
+    remediateResource: (res) => {
+        return res;
+    },
     validateResource: [
         validateResourceOfType(aws.s3.Bucket, (bucket, args, reportViolation) => {
 
             const parentType = 'alphaws:resources:S3Bucket'; // The type of the parent component we want to check against
             
-            const parentArn = args.opts.parent; // Parent ARN in the format `urn:pulumi:${stack}::${project}::${type}::${name}`
+            const parentArn = args.opts.parent; // Parent ARN in the format `urn:pulumi:${stack}::${project}::${type}::${name}`'
 
             if (!parentArn || !validateType(parentArn, parentType) ) {
                 reportViolation(`Bucket must be a child of a '${parentArn}' component`);

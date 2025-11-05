@@ -1,7 +1,5 @@
 import { StackValidationPolicy } from "@pulumi/policy";
 
-import { strict as assert } from "assert";
-
 interface StackTagValidationConfig {
     requiredTags?: string[];
 }
@@ -18,14 +16,13 @@ export const checkStackTags: StackValidationPolicy = {
             },
         },
     },
-    validateStack: async (args, _) => {
-
+    validateStack: async (args, reportViolation) => {
         const requiredTags = args.getConfig<StackTagValidationConfig>().requiredTags;
-
         const actualTags = args.stackTags;
-
         for (const tag of requiredTags || []) {
-            assert.ok(actualTags.has(tag), `Missing required Stack Tag: ${tag}`);
+            if (!actualTags.has(tag)) {
+                reportViolation(`Missing required Stack Tag: ${tag}`);
+            }
         }
     },
 }
