@@ -5,6 +5,10 @@ export const securityGroupOpenIngresses: ResourceValidationPolicy = {
     name: "validate-open-ingresses",
     enforcementLevel: "advisory",
     description: "Warn on open ingresses",
+    remediationSteps: "Ensure that the security group does not allow ingress from 0.0.0.0/0 on port 22.",
+    remediateResource: (res) => {
+        return res;
+    },
     validateResource: [
         validateResourceOfType(aws.ec2.SecurityGroup, (securityGroup, args, reportViolation) => {
             if(securityGroup.ingress) {

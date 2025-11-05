@@ -5,10 +5,6 @@ export const s3BucketLoggingEnabled: ResourceValidationPolicy = {
     name: "s3-bucket-parent-component",
     description: "Checks whether an S3 bucket is a child of a specific parent component.",
     enforcementLevel: "mandatory",
-    remediationSteps: "Ensure that the S3 bucket is created as a child resource of the specified parent component.",
-    remediateResource: (res) => {
-        return res;
-    },
     validateResource: [
         validateResourceOfType(aws.s3.Bucket, (bucket, args, reportViolation) => {
 
